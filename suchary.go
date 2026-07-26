@@ -1,0 +1,5 @@
+package sucharygo
+
+func DajKawal() {
+
+}
