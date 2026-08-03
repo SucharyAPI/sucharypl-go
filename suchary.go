@@ -9,7 +9,7 @@ import (
 
 // Struktura zwrotu z API
 type ZwrotSerwera struct {
-	Zart string `json:"zart"`
+	Zart string `json:"tresc"`
 }
 
 // Custom errory
