@@ -12,6 +12,10 @@ type ZwrotSerwera struct {
 	Zart string `json:"tresc"`
 }
 
+type ZwrotMasakra struct {
+	Masakra string `json:"masakra"`
+}
+
 // Custom errory
 type SucharyError struct {
 	Tresc string
@@ -63,7 +67,7 @@ const (
 	Inne          Kategoria = "inne"
 )
 
-// Funkcja fetchująca
+// Funkcja fetchująca kawał
 func DajKawal(kategoria ...Kategoria) (string, error) {
 	klient := http.Client{
 		Timeout: 6500 * time.Millisecond,
@@ -89,4 +93,100 @@ func DajKawal(kategoria ...Kategoria) (string, error) {
 		return "", &JSONError{Tresc: err.Error()}
 	}
 	return kawal.Zart, nil
+}
+
+// Funkcja fetchująca wiele kawałów
+func WieleKawalow(ilosc int) ([]string, error) {
+	klient := http.Client{Timeout: 6500 * time.Millisecond}
+
+	adres := fmt.Sprintf("https://sucharyapi.onrender.com/zart/%d", ilosc)
+
+	odp, err := klient.Get(adres)
+	if err != nil {
+		return nil, &ConnectionError{Tresc: err.Error()}
+	}
+	defer odp.Body.Close()
+
+	if odp.StatusCode != http.StatusOK {
+		return nil, &HTTPError{
+			Kod:   odp.StatusCode,
+			Tresc: "Nie udało się pobrać sucharów",
+		}
+	}
+
+	var kawalyR []ZwrotSerwera
+	err = json.NewDecoder(odp.Body).Decode(&kawalyR)
+	if err != nil {
+		return nil, &JSONError{Tresc: err.Error()}
+	}
+
+	var kawaly []string
+
+	for _, i := range kawalyR {
+		kawaly = append(kawaly, i.Zart)
+	}
+
+	return kawaly, nil
+}
+
+// Funkcja fetchująca masakrę
+func Masakra() (string, error) {
+	klient := http.Client{Timeout: 6500 * time.Millisecond}
+
+	adres := "https://sucharyapi.onrender.com/masakra"
+
+	odp, err := klient.Get(adres)
+	if err != nil {
+		return "", &ConnectionError{Tresc: err.Error()}
+	}
+	defer odp.Body.Close()
+
+	if odp.StatusCode != http.StatusOK {
+		return "", &HTTPError{
+			Kod:   odp.StatusCode,
+			Tresc: "Nie udało się pobrać masakry",
+		}
+	}
+
+	var masakra ZwrotMasakra
+	err = json.NewDecoder(odp.Body).Decode(&masakra)
+	if err != nil {
+		return "", &JSONError{Tresc: err.Error()}
+	}
+
+	return masakra.Masakra, nil
+}
+
+// Funkcja fetchująca wiele masakr
+func WieleMasakr(ilosc int) ([]string, error) {
+	klient := http.Client{Timeout: 6500 * time.Millisecond}
+
+	adres := fmt.Sprintf("https://sucharyapi.onrender.com/masakra/%d", ilosc)
+
+	odp, err := klient.Get(adres)
+	if err != nil {
+		return nil, &ConnectionError{Tresc: err.Error()}
+	}
+	defer odp.Body.Close()
+
+	if odp.StatusCode != http.StatusOK {
+		return nil, &HTTPError{
+			Kod:   odp.StatusCode,
+			Tresc: "Nie udało się pobrać masakr",
+		}
+	}
+
+	var masakryR []ZwrotMasakra
+	err = json.NewDecoder(odp.Body).Decode(&masakryR)
+	if err != nil {
+		return nil, &JSONError{Tresc: err.Error()}
+	}
+
+	var masakry []string
+
+	for _, i := range masakryR {
+		masakry = append(masakry, i.Masakra)
+	}
+
+	return masakry, nil
 }
