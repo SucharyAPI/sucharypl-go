@@ -29,4 +29,31 @@ func main() {
 	} else {
 		fmt.Println(zartProg)
 	}
+
+	fmt.Println("\n=== Pobieranie wielu kawałów (3) ===")
+	zarty, err := sucharygo.WieleKawalow(3)
+	if err != nil {
+		log.Fatalf("Błąd: %v", err)
+	}
+	fmt.Println(zarty)
+	for _, z := range zarty {
+		fmt.Println(z)
+	}
+
+	fmt.Println("\n=== Pobieranie masakry ===")
+	mas, err := sucharygo.Masakra()
+	if err != nil {
+		log.Fatalf("Błąd: %v", err)
+	}
+	fmt.Println(mas)
+
+	fmt.Println("\n=== Pobieranie wielu masakr (3) ===")
+	masakry, err := sucharygo.WieleMasakr(3)
+	if err != nil {
+		log.Fatalf("Błąd: %v", err)
+	}
+	fmt.Println(masakry)
+	for _, z := range masakry {
+		fmt.Println(z)
+	}
 }
