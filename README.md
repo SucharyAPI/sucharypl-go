@@ -14,7 +14,7 @@ go get github.com/SucharyAPI/sucharypl-go
 
 ---
 
-## ⚡ Szybki start
+## ⚡ Suchary
 ### Pobranie losowego suchara
 ```go
 package main
@@ -27,6 +27,7 @@ import (
 )
 
 func main() {
+    // Pobierz losowy suchar z dowolnej kategorii
     zart, err := sucharygo.DajKawal()
     if err != nil {
         log.Fatalf("Błąd: %v", err)
@@ -47,11 +48,82 @@ import (
 )
 
 func main() {
+    // Pobierz suchar z kategorii "suchary"
     zart, err := sucharygo.DajKawal(sucharygo.Suchary)
     if err != nil {
         log.Fatalf("Błąd: %v", err)
     }
     fmt.Println(zart)
+}
+```
+
+### Pobranie większej liczby sucharów
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+
+    sucharygo "github.com/SucharyAPI/sucharypl-go"
+)
+
+func main() {
+    // Pobierz 3 suchary
+    zarty, err := sucharygo.WieleKawalow(3)
+    if err != nil {
+        log.Fatalf("Błąd: %v", err)
+    }
+    fmt.Println(zarty)
+
+    // Funkcja WieleKawalow() zwraca listę (array []) z żartami
+}
+```
+
+---
+
+## Masakry
+### Pobranie masakry
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+
+    sucharygo "github.com/SucharyAPI/sucharypl-go"
+)
+
+func main() {
+    // Pobierz masakrę
+    masakra, err := sucharygo.Masakra()
+    if err != nil {
+        log.Fatalf("Błąd: %v", err)
+    }
+    fmt.Println(masakra)
+}
+```
+
+### Pobranie większej liczby masakr
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+
+    sucharygo "github.com/SucharyAPI/sucharypl-go"
+)
+
+func main() {
+    // Pobierz 3 masakry
+    masakry, err := sucharygo.WieleMasakr(3)
+    if err != nil {
+        log.Fatalf("Błąd: %v", err)
+    }
+    fmt.Println(masakry)
+
+    // Funkcja WieleMasakr() zwraca listę (array []) z masakrami
 }
 ```
 
